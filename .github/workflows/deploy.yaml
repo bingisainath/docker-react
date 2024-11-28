@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Check out the repository
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       # Log in to Docker Hub
       - run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
@@ -24,3 +24,22 @@ jobs:
       
       # Run tests inside the container
       - run: docker run -e CI=true bingisainath/docker-react npm test
+
+      - name: Generate deployment package
+        run: zip -r deploy.zip . -x '*.get*'
+
+      - name: Deploy to EB
+        uses: einaregilsson/beanstalk-deploy@v18
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
+          application_name: frontend
+          environment_name: frontend-env
+          existing_bucket_name: elasticbeanstalk-eu-north-1-600627316973
+          region: eu-north-1
+          version_label: ${{ github.sha }}
+          deployment_package: deploy.zip
+
+
+# http://frontend-env.eba-pmbpbxaq.eu-north-1.elasticbeanstalk.com/
+# gBMqbcYYJH9kKlRqkHEpMrPGsYupE3Eqe6XjGH/o

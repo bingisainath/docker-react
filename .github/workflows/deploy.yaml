@@ -33,8 +33,8 @@ jobs:
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
           aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
-          application_name: docker-react
-          environment_name: Docker-react-env
+          application_name: frontend
+          environment_name: Frontend-env
           existing_bucket_name: elasticbeanstalk-ap-south-1-600627316973 
           region: ap-south-1
           version_label: ${{ github.sha }}
@@ -42,4 +42,5 @@ jobs:
 
 
 # http://frontend-env.eba-pmbpbxaq.eu-north-1.elasticbeanstalk.com/
+# elasticbeanstalk-ap-south-1-600627316973
 # gBMqbcYYJH9kKlRqkHEpMrPGsYupE3Eqe6XjGH/o
